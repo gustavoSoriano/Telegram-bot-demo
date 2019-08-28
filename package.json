@@ -1,0 +1,16 @@
+{
+  "name": "telegram-bot",
+  "version": "1.0.0",
+  "description": "demonstração do funcionamento de um bot com telegram",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "keywords": [],
+  "author": "soriano <soriano@soriano.com>",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "node-telegram-bot-api": "^0.30.0"
+  }
+}
