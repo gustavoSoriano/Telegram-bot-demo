@@ -7,7 +7,6 @@ npm i
 ```
 
 ## Criação do Bot
-## Site
 
 - [x] Com telegram instalado, procure por: @BotFather
 - [x] Siga as orientações do @BotFather para criação do bot
