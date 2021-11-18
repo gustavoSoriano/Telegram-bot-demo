@@ -1,37 +1,29 @@
-require('dotenv').load()
-const TelegramBot = require('node-telegram-bot-api')
-const bot         = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true })
+require("dotenv").load();
+const Commands = require("./Commands");
 
-//ID do chat privado. 
-//const private_id  = 529720958
-
-//Recebe o callback de um click no botão, por exemplo.
-bot.on('callback_query', ({id, from, message, chat_instance, data}) => {
-    let text = (data === '1')  ? 'Você clicou no btn 1' : 'Obrigado por clicar'
-    bot.editMessageText(text, {
-        chat_id: message.chat.id,
-        message_id: message.message_id,
+new Commands()
+    .Init((BOT) => {
+        BOT.sendMessage(process.env.PRIVATE_CHATID, `O pai tá On!`);
     })
-})
-
-
-//recebe mensagens direcionadas ao bot
-bot.on( 'message', ({from, chat, date, text, entities}) => {
-    if( text.includes('/start') )
-    {
-        bot.sendMessage(chat.id, `Olá ${from.first_name}, bem vindo!`)
-
-        //Envia botões para delegar ações
-        bot.sendMessage(chat.id, "Escolha uma das seguintes opções:", {
+    .onMessage("start", (BOT, { from, chat, date, text, entities }) => {
+        BOT.sendMessage(chat.id, "Escolha uma das seguintes opções:", {
             reply_markup: JSON.stringify({
                 inline_keyboard: [
-                    [{ text: 'Some button text 1', callback_data: '1' }],
-                    [{ text: 'Some button text 2', callback_data: '2' }],
-                    [{ text: 'Some button text 3', callback_data: '3' }]
-                ]
-            })
-        })
-    }
-    else
-        bot.sendMessage(chat.id, `Comando inválido`)
-})
+                    [{ text: "Botão 1", callback_data: "btn1" }],
+                    [{ text: "Botão 2", callback_data: "btn2" }],
+                ],
+            }),
+        });
+    })
+    .onCallBack("btn1", (BOT, { message, data, id, from, chat_instance }) => {
+        BOT.editMessageText("Você clicou no btn 1", {
+            chat_id: message.chat.id,
+            message_id: message.message_id,
+        });
+    })
+    .onCallBack("btn2", (BOT, { message, data, id, from, chat_instance }) => {
+        BOT.editMessageText("Você clicou no btn 2", {
+            chat_id: message.chat.id,
+            message_id: message.message_id,
+        });
+    });
